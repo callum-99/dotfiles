@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../common/global
+    ../../common/global/linux.nix
     ../../common/users/callum
     ../../common/optional/ssh.nix
   ];
@@ -36,6 +37,8 @@
     powerManagement.enable = false;
     open = true;
   };
+
+  i18n.defaultLocale = "en_GB.UTF-8";
 
   # Titan-specific packages
   environment.systemPackages = with pkgs; [

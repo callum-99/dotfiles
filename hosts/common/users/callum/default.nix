@@ -1,29 +1,29 @@
 { config, lib, pkgs, ... }: {
-  # Define a user account
-  users.users.callum = {
-    isNormalUser = true;
-    description = "Callum";
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
-    shell = pkgs.zsh;
-
-    # For NixOS systems
-    initialPassword = lib.mkIf (pkgs.stdenv.hostPlatform.isLinux && !config.users.mutableUsers) "password";
-
-    # For Darwin systems
-    home = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "/Users/callum";
-  };
-
-  # Allow sudo without password for this user
-  security.sudo.extraRules = lib.mkIf pkgs.stdenv.hostPlatform.isLinux [
+  # Define a user account - platform specific configurations
+  users.users = lib.mkMerge [
+    # Common settings for both platforms
     {
-      users = [ "callum" ];
-      commands = [
-        {
-          command = "ALL";
-          options = [ "NOPASSWD" ];
-        }
-      ];
+      callum = {
+        description = "Callum";
+        shell = pkgs.zsh;
+      };
     }
+
+    # Linux-specific settings
+    (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
+      callum = {
+        isNormalUser = true;
+        extraGroups = [ "wheel" "networkmanager" "docker" ];
+        initialPassword = lib.mkIf (!config.users.mutableUsers) "password";
+      };
+    })
+
+    # Darwin-specific settings
+    (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+      callum = {
+        home = "/Users/callum";
+      };
+    })
   ];
 }
 
