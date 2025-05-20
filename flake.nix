@@ -11,12 +11,12 @@
     };
 
     darwin = {
-      url = "github:lnl7/nix-darwin";
+      url = "github:lnl7/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -28,9 +28,16 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix.url = "github:nix-community/stylix";
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nixos-wsl, flake-parts, sops-nix, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nixos-wsl, flake-parts, sops-nix, stylix, nixvim, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
@@ -81,6 +88,7 @@
               ./hosts/nixos/titan
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
+              stylix.nixosModules.stylix
               ./modules/sops
               {
                 home-manager.useGlobalPkgs = true;
@@ -89,6 +97,8 @@
                 home-manager.users.callum = {
                   imports = [
                     ./home/callum/profiles/titan.nix
+                    sops-nix.homeManagerModules.sops
+                    nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
                 };
@@ -103,6 +113,7 @@
               ./hosts/wsl/wsl
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
+              stylix.nixosModules.stylix
               nixos-wsl.nixosModules.default
               ./modules/sops
               {
@@ -113,6 +124,7 @@
                   imports = [
                     ./home/callum/profiles/wsl.nix
                     sops-nix.homeManagerModules.sops
+                    nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
                 };
@@ -128,6 +140,7 @@
             specialArgs = { inherit inputs; };
             modules = [
               ./hosts/darwin/dione
+              stylix.darwinModules.stylix
               home-manager.darwinModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
@@ -137,6 +150,7 @@
                   imports = [
                     ./home/callum/profiles/titan.nix
                     sops-nix.homeManagerModules.sops
+                    nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
                 };
@@ -154,6 +168,8 @@
             modules = [
               ./home/callum/profiles/titan.nix
               sops-nix.homeManagerModules.sops
+              stylix.homeModules.stylix
+              nixvim.homeManagerModules.nixvim
               ./home/modules/sops.nix
             ];
           };
@@ -164,6 +180,8 @@
             modules = [
               ./home/callum/profiles/titan.nix
               sops-nix.homeManagerModules.sops
+              stylix.homeModules.stylix
+              nixvim.homeManagerModules.nixvim
               ./home/modules/sops.nix
             ];
           };
@@ -175,6 +193,8 @@
             modules = [
               ./home/callum/profiles/dione.nix
               sops-nix.homeManagerModules.sops
+              stylix.homeModules.stylix
+              nixvim.homeManagerModules.nixvim
               ./home/modules/sops.nix
             ];
           };

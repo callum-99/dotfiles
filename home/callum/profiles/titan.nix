@@ -2,6 +2,7 @@
   imports = [
     ../default.nix
     ../features/dev
+    ../features/cli
     ../features/linux
   ];
 
