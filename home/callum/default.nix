@@ -14,6 +14,34 @@
     stateVersion = "25.05";
   };
 
+  # Setup stylix
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    fonts = {
+      serif = {
+        package = pkgs.roboto-slab;
+        name = "Roboto Slab";
+      };
+
+      sansSerif = {
+        package = pkgs.nerd-fonts.fira-code;
+        name = "Fira Code Nerd Font";
+      };
+
+      monospace = {
+        package = pkgs.nerd-fonts.fira-code;
+        name = "Fira Code Nerd Font";
+      };
+
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
+    };
+    targets.gnome.enable = false;
+  };
+
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
 }
