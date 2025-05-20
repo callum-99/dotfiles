@@ -14,7 +14,7 @@
 
     shellAliases = {
       ll = "ls -la";
-      cd = "zoxide";
+      cd = "z";
     };
 
     initContent = ''
@@ -40,6 +40,11 @@
 
   # Configure fzf
   programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
   };
