@@ -57,7 +57,7 @@
             nixpkgs-fmt
             sops
             gnupg
-	    age
+            age
           ];
         };
 
@@ -87,12 +87,35 @@
                 home-manager.useUserPackages = true;
                 home-manager.extraSpecialArgs = { inherit inputs; };
                 home-manager.users.callum = {
-		  imports = [
-		    ./home/callum/profiles/titan.nix
-		    sops-nix.homeManagerModules.sops
-		    ./home/modules/sops.nix
-		  ];
-		};
+                  imports = [
+                    ./home/callum/profiles/titan.nix
+                    ./home/modules/sops.nix
+                  ];
+                };
+              }
+            ];
+          };
+
+          wsl = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./hosts/wsl/wsl
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              nixos-wsl.nixosModules.default
+              ./modules/sops
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = { inherit inputs; };
+                home-manager.users.callum = {
+                  imports = [
+                    ./home/callum/profiles/wsl.nix
+                    sops-nix.homeManagerModules.sops
+                    ./home/modules/sops.nix
+                  ];
+                };
               }
             ];
           };
@@ -111,12 +134,12 @@
                 home-manager.useUserPackages = true;
                 home-manager.extraSpecialArgs = { inherit inputs; };
                 home-manager.users.callum = {
-		  imports = [
-		    ./home/callum/profiles/titan.nix
-		    sops-nix.homeManagerModules.sops
-		    ./home/modules/sops.nix
-		  ];
-		};
+                  imports = [
+                    ./home/callum/profiles/titan.nix
+                    sops-nix.homeManagerModules.sops
+                    ./home/modules/sops.nix
+                  ];
+                };
               }
             ];
           };
@@ -131,7 +154,17 @@
             modules = [
               ./home/callum/profiles/titan.nix
               sops-nix.homeManagerModules.sops
-	      ./home/modules/sops.nix
+              ./home/modules/sops.nix
+            ];
+          };
+
+          "callum@wsl" = home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs.legacyPackages.x86_64-linux;
+            extraSpecialArgs = { inherit inputs; };
+            modules = [
+              ./home/callum/profiles/titan.nix
+              sops-nix.homeManagerModules.sops
+              ./home/modules/sops.nix
             ];
           };
 
@@ -142,7 +175,7 @@
             modules = [
               ./home/callum/profiles/dione.nix
               sops-nix.homeManagerModules.sops
-	      ./home/modules/sops.nix
+              ./home/modules/sops.nix
             ];
           };
         };
