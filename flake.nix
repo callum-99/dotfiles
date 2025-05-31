@@ -170,6 +170,7 @@
             specialArgs = { inherit inputs; };
             modules = [
               ./hosts/darwin/dione
+              sops-nix.darwinModules.sops
               stylix.darwinModules.stylix
               home-manager.darwinModules.home-manager
               {
