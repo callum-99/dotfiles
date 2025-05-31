@@ -18,7 +18,6 @@
     globals = {
       mapleader = " ";
       maplocalleader = " ";
-
       have_nerd_font = true;
     };
 
@@ -27,7 +26,6 @@
         wl-copy.enable = true;
         xsel.enable = true;
       };
-
       register = "unnamedplus";
     };
 
@@ -59,7 +57,6 @@
         key = "<Esc>";
         action = "<cmd>nohlsearch<CR>";
       }
-
       {
         mode = "t";
         key = "<Esc><Esc>";
@@ -68,7 +65,6 @@
           desc = "Exit terminal mode";
         };
       }
-
       {
         mode = "n";
         key = "<C-h>";
@@ -77,7 +73,6 @@
           desc = "Move focus to the left window";
         };
       }
-
       {
         mode = "n";
         key = "<C-l>";
@@ -86,7 +81,6 @@
           desc = "Move focus to the right window";
         };
       }
-
       {
         mode = "n";
         key = "<C-j>";
@@ -95,7 +89,6 @@
           desc = "Move focus to the lower window";
         };
       }
-
       {
         mode = "n";
         key = "<C-k>";

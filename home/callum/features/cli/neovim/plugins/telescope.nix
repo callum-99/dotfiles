@@ -88,7 +88,7 @@
             desc = "[ ] Find existing buffers";
           };
         };
-        
+
       };
 
       settings = {
@@ -114,7 +114,7 @@
           desc = "[/] Fuzzily search in current buffer";
         };
       }
-      
+
       {
         mode = "n";
         key = "<leader>s/";
