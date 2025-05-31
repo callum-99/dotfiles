@@ -127,7 +127,7 @@ init-machine machine=hostname:
     echo "" >> /tmp/{{machine}}_ssh.yaml; \
     echo "ssh_public_key_rsa: $(cat /tmp/ssh-keys/{{machine}}_rsa.pub)" >> /tmp/{{machine}}_ssh.yaml; \
     mv /tmp/{{machine}}_ssh.yaml secrets/machines/{{machine}}/ssh.yaml; \
-    cd secrets && sops --encrypt --in-place machines/{{machine}}/ssh.yaml; \
+    cd secrets && SOPS_AGE_KEY_FILE=/var/lib/sops-nix/key.txt sops --encrypt --in-place machines/{{machine}}/ssh.yaml; \
     rm -rf /tmp/ssh-keys; \
     just _print "{{GREEN}}" "SSH secrets created for {{machine}}"; \
   else \
