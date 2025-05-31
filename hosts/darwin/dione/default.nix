@@ -205,7 +205,6 @@
       "mtools"
       "nasm"
       "ncurses"
-      "neovim"
       "netpbm"
       "nettle"
       "ninja"
