@@ -12,14 +12,14 @@
       theme = "robbyrussell";
     };
 
-    shellAliases = {
-      ll = "ls -la";
-      cd = "z";
-    };
-
     initContent = ''
       # Additional zsh configuration
       export PATH="$HOME/.local/bin:$PATH"
+    '';
+
+    completionInit = ''
+      # Disable ls alias
+      zstyle ':omz:lib:directories' aliases no
     '';
   };
 
@@ -45,6 +45,11 @@
   };
 
   programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.eza = {
     enable = true;
     enableZshIntegration = true;
   };
