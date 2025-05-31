@@ -3,6 +3,11 @@
     enable = true;
     userName = "Callum Yarnold";
     userEmail = "callum@yarnold.co.uk";
+    signing = {
+      format = "ssh";
+      key = "~/.ssh/id_rsa.pub";
+      signByDefault = true;
+    };
 
     extraConfig = {
       init.defaultBranch = "main";

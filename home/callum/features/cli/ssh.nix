@@ -34,8 +34,8 @@
         identitiesOnly = true;
       };
 
-      "git.yarnold.co.uk" = {
-        hostname = "git.yarnold.co.uk";
+      "git.truenas.home.yarnold.co.uk" = {
+        hostname = "git.truenas.home.yarnold.co.uk";
         user = "git";
         identityFile = "~/.ssh/id_ed25519";
         identitiesOnly = true;
