@@ -13,5 +13,10 @@
       options = "--delete-older-than 30d";
     };
   };
+
+  services.dbus.enable = true;
+  environment.systemPackages = with pkgs; [
+    dconf
+  ];
 }
 
