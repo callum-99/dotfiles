@@ -29,11 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:nix-community/stylix";
+    stylix.url = "github:nix-community/stylix/release-25.05";
 
     nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:nix-community/nixvim/nixos-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -93,11 +93,12 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = { inherit inputs; };
+                home-manager.extraSpecialArgs = { inherit inputs; helpers = self.lib; };
                 home-manager.users.callum = {
                   imports = [
                     ./home/callum/profiles/titan.nix
                     sops-nix.homeManagerModules.sops
+                    stylix.homeModules.stylix
                     nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
@@ -119,11 +120,12 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = { inherit inputs; };
+                home-manager.extraSpecialArgs = { inherit inputs; helpers = self.lib; };
                 home-manager.users.callum = {
                   imports = [
                     ./home/callum/profiles/wsl.nix
                     sops-nix.homeManagerModules.sops
+                    stylix.homeModules.stylix
                     nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
@@ -145,10 +147,10 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = { inherit inputs; };
+                home-manager.extraSpecialArgs = { inherit inputs; helpers = self.lib; };
                 home-manager.users.callum = {
                   imports = [
-                    ./home/callum/profiles/titan.nix
+                    ./home/callum/profiles/dione.nix
                     sops-nix.homeManagerModules.sops
                     nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
@@ -164,7 +166,7 @@
           # Linux (non-NixOS) configuration
           "callum@titan" = home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
-            extraSpecialArgs = { inherit inputs; };
+            extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
               ./home/callum/profiles/titan.nix
               sops-nix.homeManagerModules.sops
@@ -176,9 +178,9 @@
 
           "callum@wsl" = home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
-            extraSpecialArgs = { inherit inputs; };
+            extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
-              ./home/callum/profiles/titan.nix
+              ./home/callum/profiles/wsl.nix
               sops-nix.homeManagerModules.sops
               stylix.homeModules.stylix
               nixvim.homeManagerModules.nixvim
@@ -189,7 +191,7 @@
           # macOS configuration (standalone)
           "callum@dione" = home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-            extraSpecialArgs = { inherit inputs; };
+            extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
               ./home/callum/profiles/dione.nix
               sops-nix.homeManagerModules.sops
