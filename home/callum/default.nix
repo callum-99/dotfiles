@@ -6,8 +6,8 @@
   # Home Manager needs a bit of information about you and the paths it should manage
   home = {
     username = "callum";
-    homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin 
-                    then "/Users/callum" 
+    homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin
+                    then "/Users/callum"
                     else "/home/callum";
 
     # This value determines the Home Manager release that your configuration is compatible with
@@ -39,7 +39,6 @@
         name = "Noto Color Emoji";
       };
     };
-    targets.gnome.enable = false;
   };
 
   # Let Home Manager install and manage itself
