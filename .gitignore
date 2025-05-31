@@ -8,7 +8,3 @@ result-*
 # Editor files
 *.swp
 *~
-
-# Unencrypted secrets (just in case)
-secrets/secrets.yaml
-secrets/devices/*
