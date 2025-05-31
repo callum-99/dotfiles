@@ -107,6 +107,33 @@
             ];
           };
 
+          elara = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./hosts/wsl/elara
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              nixos-wsl.nixosModules.default
+              ./modules/sops
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "backup";
+                home-manager.extraSpecialArgs = { inherit inputs; helpers = self.lib; };
+                home-manager.users.callum = {
+                  imports = [
+                    ./home/callum/profiles/elara.nix
+                    sops-nix.homeManagerModules.sops
+                    stylix.homeModules.stylix
+                    nixvim.homeManagerModules.nixvim
+                    ./home/modules/sops.nix
+                  ];
+                };
+              }
+            ];
+          };
+
           wsl = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
@@ -172,6 +199,18 @@
               sops-nix.homeManagerModules.sops
               stylix.homeModules.stylix
               nixvim.homeManagerModules.nixvim
+              ./home/modules/sops.nix
+            ];
+          };
+
+          "callum@elara" = home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs.legacyPackages.x86_64-linux;
+            extraSpecialArgs = { inherit inputs; helpers = self.lib; };
+            modules = [
+              ./home/callum/profiles/elara.nix
+              stylix.homeModules.stylix
+              nixvim.homeManagerModules.nixvim
+              sops-nix.homeManagerModules.sops
               ./home/modules/sops.nix
             ];
           };
