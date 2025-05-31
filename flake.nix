@@ -1,5 +1,5 @@
 {
-  description = "Modernized NixOS and Home Manager configuration";
+  description = "Callums dotfiles";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
@@ -240,6 +240,27 @@
               nixvim.homeManagerModules.nixvim
               ./home/modules/sops.nix
             ];
+          };
+        };
+        templates = {
+          default = {
+            path = ./.;
+            description = "Callums dotfiles";
+            welcomeText = ''
+              # NixOS Configuration Template
+
+              You have created a new NixOS/Darwin configuration!
+
+              ## Next steps:
+
+              1. Initialize machine:
+                just init-machine <hostname>
+
+              2. Add the displayed age key to secrets/.sops.yaml
+
+              3. Deploy system:
+                just deploy
+            '';
           };
         };
       };
