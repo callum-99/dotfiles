@@ -99,7 +99,6 @@
                   imports = [
                     ./home/callum/profiles/titan.nix
                     sops-nix.homeManagerModules.sops
-                    stylix.homeModules.stylix
                     nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
@@ -126,7 +125,6 @@
                   imports = [
                     ./home/callum/profiles/elara.nix
                     sops-nix.homeManagerModules.sops
-                    stylix.homeModules.stylix
                     nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
@@ -153,7 +151,6 @@
                   imports = [
                     ./home/callum/profiles/wsl.nix
                     sops-nix.homeManagerModules.sops
-                    stylix.homeModules.stylix
                     nixvim.homeManagerModules.nixvim
                     ./home/modules/sops.nix
                   ];
