@@ -15,6 +15,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -158,6 +160,32 @@
               }
             ];
           };
+
+          phobos = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./hosts/nixos/phobos
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              stylix.nixosModules.stylix
+              ./modules/sops
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "backup";
+                home-manager.extraSpecialArgs = { inherit inputs; helpers = self.lib; };
+                home-manager.users.callum = {
+                  imports = [
+                    ./home/callum/profiles/phobos.nix
+                    sops-nix.homeManagerModules.sops
+                    nixvim.homeManagerModules.nixvim
+                    ./home/modules/sops.nix
+                  ];
+                };
+              }
+            ];
+          };
         };
 
         # Darwin configurations
@@ -235,6 +263,18 @@
               sops-nix.homeManagerModules.sops
               stylix.homeModules.stylix
               nixvim.homeManagerModules.nixvim
+              ./home/modules/sops.nix
+            ];
+          };
+
+          "callum@phobos" = home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs.legacyPackages.aarch64-linux;
+            extraSpecialArgs = { inherit inputs; helpers = self.lib; };
+            modules = [
+              ./home/callum/profiles/phobos.nix
+              stylix.homeModules.stylix
+              nixvim.homeManagerModules.nixvim
+              sops-nix.homeManagerModules.sops
               ./home/modules/sops.nix
             ];
           };
