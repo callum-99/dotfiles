@@ -1,29 +1,31 @@
-{ inputs, outputs, ... }:
+{ inputs, ... }:
 let
   addPatches = pkg: patches:
     pkg.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches pr []) ++ patches;
+      patches = (oldAttrs.patches or []) ++ patches;
     });
-in {
-  flake-inputs = final: _: {
+in [
+  # flake-inputs overlay
+  (final: _: {
     inputs = builtins.mapAttrs (
       _: flake: let
         legacyPackages = (flake.legacyPackages or {}).${final.system} or {};
-	packages = (flake.packages or {}).${final.system} or {};
-     in
-       if legacyPackages != {}
-       then legacyPackages
-       else packages
-    )
-    
-    inputs;
-  };
+        packages = (flake.packages or {}).${final.system} or {};
+      in
+        if legacyPackages != {}
+        then legacyPackages
+        else packages
+    ) inputs;
+  })
 
-  stable = final: _: {
+  # stable overlay
+  (final: _: {
     stable = inputs.nixpkgs.legacyPackages.${final.system};
-  };
+  })
 
-  additions = final: prev: {
-    
-  };
-}
+  # additions overlay
+  (final: prev: {
+    local-pkgs = import ../pkgs { pkgs = final; };
+  })
+]
+
