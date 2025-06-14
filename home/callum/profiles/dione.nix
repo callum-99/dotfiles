@@ -13,6 +13,10 @@
     gnupg
   ];
 
+  home.sessionPath = [
+    "$HOME/.swiftly/bin"
+  ];
+
   # SOPS configuration
   sops = {
     secrets = {
