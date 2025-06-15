@@ -37,9 +37,21 @@
       url = "github:nix-community/nixvim/nixos-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    impermanence.url = "github:nix-community/impermanence";
+
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nixos-wsl, flake-parts, sops-nix, stylix, nixvim, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nixos-wsl, flake-parts, sops-nix, stylix, nixvim, disko, impermanence, lanzaboote, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
@@ -94,7 +106,10 @@
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
               stylix.nixosModules.stylix
-              ./modules/sops
+              disko.nixosModules.disko
+              impermanence.nixosModules.impermanence
+              lanzaboote.nixosModules.lanzaboote
+	      ./modules/sops
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;

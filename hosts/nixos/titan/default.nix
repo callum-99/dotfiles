@@ -1,6 +1,9 @@
 { config, lib, pkgs, inputs, ... }: {
   imports = [
+    ./disks.nix
     ./hardware-configuration.nix
+    ../../common/optional/impermanence.nix
+    ./persistence.nix
     ../../common/global
     ../../common/global/linux.nix
     ../../common/users/callum
@@ -42,9 +45,7 @@
 
   # Titan-specific packages
   environment.systemPackages = with pkgs; [
-    wget
-    git
-    neovim
+    sbctl
   ];
 
   nixpkgs.config.allowUnfree = true;

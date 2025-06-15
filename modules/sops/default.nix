@@ -9,12 +9,15 @@ in {
   sops = {
     # Age configuration
     age = {
-      generateKey = true;
+      generateKey = false;
       keyFile = "/var/lib/sops-nix/key.txt";
+      sshKeyPaths = [];
     };
 
+    gnupg.sshKeyPaths = [];
+
     # Global secrets
-    defaultSopsFile = ../../secrets/global/secrets.yaml;
+    defaultSopsFile = ../../secrets/secrets.yaml;
 
     # Secrets configuration
     secrets = {

@@ -13,6 +13,7 @@ NC := '\033[0m'
 default:
   @echo "Available commands:"
   @echo -e "  just init-machine [name]   {{BLUE}}- Initialize new machine with SSH keys{{NC}}"
+  @echo -e "  just disko-format [system] {{BLUE}}- Formats the drive with disko config{{NC}}"
   @echo -e "  just deploy [system]       {{BLUE}}- Deploy system (auto-detects install vs rebuild){{NC}}"
   @echo -e "  just hm-deploy [user@name] {{BLUE}}- Deploy the home-manager configuration{{NC}}"
   @echo ""
@@ -138,6 +139,21 @@ init-machine machine=hostname:
 
   @just _print "{{GREEN}}" "Machine {{machine}} initialized!"
   @echo "Next: Run 'just deploy' to deploy the system"
+
+# Format the disks with disko
+disko-format machine=hostname:
+  #!/usr/bin/env bash
+    set -e
+    echo "WARNING: This will ERASE all data on the configured disk!"
+    read -p "Continue? (yes/no): " confirm
+    if [[ "$confirm" != "yes" ]]; then
+        echo "Aborted."
+        exit 1
+    fi
+
+    # Use script to maintain TTY
+    script -q -c "sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode disko --flake .#{{machine}}" /dev/null
+
 
 # Show system info
 info:

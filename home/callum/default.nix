@@ -14,6 +14,9 @@
     stateVersion = "25.05";
   };
 
+  # Enable flakes and nix command
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Setup stylix
   stylix = {
     enable = true;

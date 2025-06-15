@@ -32,9 +32,6 @@ in {
   programs.zsh.enable = true;
 
   sops = {
-    defaultSopsFile = ../../../secrets/secrets.yaml;
-    age.keyFile = "/var/lib/sops-nix/key.txt";
-
     secrets = {
       "ssh_private_key_ed25519" = {
         sopsFile = sshSecretsFile;
