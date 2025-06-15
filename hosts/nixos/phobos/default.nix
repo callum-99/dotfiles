@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }: {
+{ config, lib, pkgs, inputs, ... }:
+let
+  appleFirmware = pkgs.fetchzip {
+    url = "http://172.16.19.1:42069/macbook-air.zip";
+    sha256 = "sha256-PNM021D6ykv/JpBwVrc7um6H/MqyGPVGjTmrFvnlbvo=";
+  };
+in {
   imports = [
     ./hardware-configuration.nix
     ../../common/global
@@ -18,7 +24,7 @@
     useExperimentalGPUDriver = true;
     experimentalGPUInstallMode = "replace";
     setupAsahiSound = true;
-    peripheralFirmwareDirectory = ./firmware;
+    peripheralFirmwareDirectory = appleFirmware;
     extractPeripheralFirmware = true;
   };
 
