@@ -18,7 +18,7 @@
       name = "eDP-1";
       width = 2560;
       height = 1600;
-      scale = 1.2;
+      scale = 1.666667;
     }
   ];
 
