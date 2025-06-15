@@ -8,6 +8,7 @@
     ../../common/global/linux.nix
     ../../common/users/callum
     ../../common/optional/ssh.nix
+    ../../common/optional/hyprland.nix
   ];
 
   # Use the systemd-boot EFI boot loader

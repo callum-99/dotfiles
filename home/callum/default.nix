@@ -1,6 +1,7 @@
 { config, lib, pkgs, inputs, ... }: {
   imports = [
     ./global
+    ../modules/monitors.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage

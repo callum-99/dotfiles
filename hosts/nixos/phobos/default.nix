@@ -5,6 +5,7 @@
     ../../common/global/linux.nix
     ../../common/users/callum
     ../../common/optional/ssh.nix
+    ../../common/optional/hyprland.nix
 
     inputs.apple-silicon.nixosModules.apple-silicon-support
   ];
