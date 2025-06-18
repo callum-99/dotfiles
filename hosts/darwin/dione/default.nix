@@ -3,6 +3,7 @@
     ../../common/global
     ../../common/global/darwin.nix
     ../../common/users/callum
+    ../../common/users/callum/darwin.nix
   ];
 
   # Set hostname

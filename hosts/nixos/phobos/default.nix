@@ -10,6 +10,7 @@ in {
     ../../common/global
     ../../common/global/linux.nix
     ../../common/users/callum
+    ../../common/users/callum/linux.nix
     ../../common/optional/ssh.nix
 
     inputs.apple-silicon.nixosModules.apple-silicon-support
