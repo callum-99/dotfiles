@@ -1,9 +1,10 @@
 { config, lib, pkgs, inputs, ... }: {
   imports = [
     ../default.nix
+    ../features/darwin
     ../features/dev
     ../features/cli
-    ../features/linux
+    ../features/desktop/apps/wezterm
   ];
 
   home.packages = with pkgs; [
