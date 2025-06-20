@@ -22,6 +22,13 @@
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
     fonts = {
+      sizes = {
+        applications = 14;
+        desktop = 12;
+        popups = 12;
+        terminal = 14;
+      };
+
       serif = {
         package = pkgs.roboto-slab;
         name = "Roboto Slab";
@@ -29,18 +36,25 @@
 
       sansSerif = {
         package = pkgs.nerd-fonts.fira-code;
-        name = "Fira Code Nerd Font";
+        name = "FiraCode Nerd Font";
       };
 
       monospace = {
         package = pkgs.nerd-fonts.fira-code;
-        name = "Fira Code Nerd Font";
+        name = "FiraCode Nerd Font";
       };
 
       emoji = {
         package = pkgs.noto-fonts-emoji;
         name = "Noto Color Emoji";
       };
+    };
+
+    opacity = {
+      applications = 1.0;
+      desktop = 0.8;
+      popups = 0.8;
+      terminal = 0.9;
     };
   };
 
