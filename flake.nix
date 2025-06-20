@@ -61,6 +61,11 @@
       overlays = [
         nur.overlays.default
       ] ++ (import ./overlays { inherit inputs; });
+
+      nixPkgsConfig = {
+        allowUnfree = true;
+        inherit overlays;
+      };
     in flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
@@ -111,7 +116,7 @@
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./hosts/nixos/titan
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
@@ -141,7 +146,7 @@
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./hosts/wsl/elara
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
@@ -169,7 +174,7 @@
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./hosts/wsl/wsl
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
@@ -197,7 +202,7 @@
             system = "aarch64-linux";
             specialArgs = { inherit inputs; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./hosts/nixos/phobos
               home-manager.nixosModules.home-manager
               sops-nix.nixosModules.sops
@@ -228,7 +233,7 @@
             system = "aarch64-darwin";
             specialArgs = { inherit inputs; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./hosts/darwin/dione
               sops-nix.darwinModules.sops
               stylix.darwinModules.stylix
@@ -259,7 +264,7 @@
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
             extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./home/callum/profiles/titan.nix
               sops-nix.homeManagerModules.sops
               stylix.homeModules.stylix
@@ -273,7 +278,7 @@
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
             extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./home/callum/profiles/elara.nix
               stylix.homeModules.stylix
               nixvim.homeManagerModules.nixvim
@@ -287,7 +292,7 @@
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
             extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./home/callum/profiles/wsl.nix
               sops-nix.homeManagerModules.sops
               stylix.homeModules.stylix
@@ -302,7 +307,7 @@
             pkgs = nixpkgs.legacyPackages.aarch64-darwin;
             extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./home/callum/profiles/dione.nix
               sops-nix.homeManagerModules.sops
               stylix.homeModules.stylix
@@ -316,7 +321,7 @@
             pkgs = nixpkgs.legacyPackages.aarch64-linux;
             extraSpecialArgs = { inherit inputs; helpers = self.lib; };
             modules = [
-              { nixpkgs.overlays = overlays; }
+              { nixpkgs.overlays = overlays; nixpkgs.config = nixPkgsConfig; }
               ./home/callum/profiles/phobos.nix
               stylix.homeModules.stylix
               nixvim.homeManagerModules.nixvim
