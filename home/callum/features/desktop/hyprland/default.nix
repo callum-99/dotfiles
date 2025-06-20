@@ -3,9 +3,9 @@
     ./hyprland.nix
     ./hyprpaper.nix
     ../rofi.nix
+    ../waybar.nix
     #./hyprlock.nix
     #./hypridle.nix
-    #./waybar.nix
   ];
 
   home.packages = with pkgs; [

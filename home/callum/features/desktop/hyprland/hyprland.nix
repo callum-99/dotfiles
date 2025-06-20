@@ -75,12 +75,14 @@ in {
       workspace = workspaceRules;
       windowrulev2 = windowRules;
 
+      exec-once = "${pkgs.waybar}/bin/waybar";
+
       input = {
         kb_layout = "gb";
       };
 
       env = [
-        "GDK_SCALE,2"
+        "GDK_SCALE,1"
         "XCURSOR_SIZE,32"
       ];
 
@@ -114,6 +116,11 @@ in {
           )
         9)
       );
+
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
     };
   };
 }
