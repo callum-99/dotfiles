@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [
     ./hyprland.nix
+    ./hyprpaper.nix
     ../rofi.nix
     #./hyprlock.nix
     #./hypridle.nix

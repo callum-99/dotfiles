@@ -1,7 +1,7 @@
 { config, lib, pkgs, inputs, ... }: {
   imports = [
     ./global
-    ../modules/monitors.nix
+    ../modules
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage
@@ -22,12 +22,18 @@
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+
+    image = pkgs.fetchurl {
+      url = "https://codeberg.org/lunik1/nixos-logo-gruvbox-wallpaper/media/branch/master/png/gruvbox-dark-rainbow.png";
+      hash = "sha256-7CMuETntiVUCKhUIdJzX+sf3F47GvuX2a61o4xbEzww";
+    };
+
     fonts = {
       sizes = {
-        applications = 14;
+        applications = 12;
         desktop = 12;
         popups = 12;
-        terminal = 14;
+        terminal = 16;
       };
 
       serif = {
@@ -53,9 +59,9 @@
 
     opacity = {
       applications = 1.0;
-      desktop = 0.8;
-      popups = 0.8;
-      terminal = 0.9;
+      desktop = 0.7;
+      popups = 0.7;
+      terminal = 0.8;
     };
   };
 
