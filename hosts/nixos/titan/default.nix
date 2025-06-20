@@ -9,6 +9,7 @@
     ../../common/users/callum
     ../../common/users/callum/linux.nix
     ../../common/optional/ssh.nix
+    ../../common/optional/hyprland.nix
     ../../common/optional/distrobox.nix
   ];
 

@@ -3,9 +3,7 @@
   sops = {
     # Age configuration
     age = {
-      # Generate a key if it doesn't exist
-      generateKey = true;
-      # Key file location - user specific
+      generateKey = false;
       keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     };
 
