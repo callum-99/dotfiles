@@ -11,6 +11,11 @@
     ./plugins/treesitter.nix
   ];
 
+  stylix.targets.nixvim.transparentBackground = {
+    main = true;
+    signColumn = false;
+  };
+
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
