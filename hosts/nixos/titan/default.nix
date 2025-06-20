@@ -38,9 +38,11 @@
 
   # Enable nvidia
   hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
     modesetting.enable = true;
     powerManagement.enable = false;
     open = true;
+    nvidiaSettings = true;
   };
 
   i18n.defaultLocale = "en_GB.UTF-8";
