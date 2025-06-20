@@ -9,6 +9,7 @@
     ../../common/users/callum
     ../../common/users/callum/linux.nix
     ../../common/optional/ssh.nix
+    ../../common/optional/distrobox.nix
   ];
 
   # Use the systemd-boot EFI boot loader

@@ -1,8 +1,10 @@
 { config, lib, pkgs, ... }: {
   users.users.callum = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" "dotfiles" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "podman" "dotfiles" ];
     hashedPasswordFile = config.sops.secrets."USER_PASSWORD".path;
+    subGidRanges = [ { count = 65536; startGid = 10000; } ];
+    subUidRanges = [ { count = 65536; startUid = 10000; } ];
   };
 
   users.users.root.hashedPasswordFile = config.sops.secrets."ROOT_PASSWORD".path;
