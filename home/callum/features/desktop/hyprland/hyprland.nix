@@ -81,6 +81,14 @@ in {
         kb_layout = "gb";
       };
 
+      general = {
+        gaps_in = 4;
+        gaps_out = 4;
+        gaps_workspaces = 10;
+
+        border_size = 1;
+      };
+
       env = [
         "GDK_SCALE,1"
         "XCURSOR_SIZE,32"
@@ -93,9 +101,11 @@ in {
       bind = [
         "$mod, F, exec, firefox"
         "$mod, Return, exec, wezterm"
-        "$mod SHIFT, Return, exec, rofi -show drun"
+        "$mod Shift, Return, exec, rofi -show drun"
 
         "$mod Shift, Q, killactive"
+        "$mod Shift, F, fullscreen"
+        "$mod Shift, V, togglefloating"
       ] ++ (
           builtins.concatLists (builtins.genList (i:
             let
