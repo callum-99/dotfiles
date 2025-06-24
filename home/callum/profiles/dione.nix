@@ -5,6 +5,7 @@
     ../features/dev
     ../features/cli
     ../features/desktop/apps/wezterm
+    ../features/desktop/apps/emacs
   ];
 
   home.packages = with pkgs; [

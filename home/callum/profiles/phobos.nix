@@ -5,6 +5,7 @@
     ../features/cli
     ../features/linux
     ../features/desktop/hyprland
+    ../features/desktop/apps/emacs
   ];
 
   home.packages = with pkgs; [
