@@ -13,6 +13,15 @@
     zsh
   ];
 
+  wayland.windowManager.hyprland.settings.input = {
+    kb_layout = "gb";
+    kb_variant = "mac";
+    touchpad = {
+      natural_scroll = true;
+      scroll_factor = 0.5;
+    };
+  };
+
   workspaces = {
     "main" = {
       id = 1;
