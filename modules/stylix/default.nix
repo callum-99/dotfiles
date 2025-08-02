@@ -19,8 +19,20 @@ let
       };
 
       font = {
-        package = pkgs.nerd-fonts.fira-code;
-        name = "FiraCode Nerd Font Mono";
+        monospace = {
+          package = pkgs.nerd-fonts.fira-code;
+          name = "FiraCode Nerd Font Mono";
+        };
+
+        sans = {
+          package = pkgs.fira-sans;
+          name = "Fira Sans";
+        };
+
+        serif = {
+          package = pkgs.roboto-slab;
+          name = "Roboto Slab";
+        };
       };
 
       cursor = {
@@ -38,8 +50,20 @@ let
       };
 
       font = {
-        package = pkgs.nerd-fonts.fira-code;
-        name = "FiraCode Nerd Font Mono";
+        monospace = {
+          package = pkgs.nerd-fonts.fira-code;
+          name = "FiraCode Nerd Font Mono";
+        };
+
+        sans = {
+          package = pkgs.fira-sans;
+          name = "Fira Sans";
+        };
+
+        serif = {
+          package = pkgs.roboto-slab;
+          name = "Roboto Slab";
+        };
       };
 
       cursor = {
@@ -82,12 +106,9 @@ in {
           terminal = fontSize;
         };
 
-        serif = {
-          inherit (themes.${theme}.font) package name;
-        };
-
-        sansSerif = config.stylix.fonts.serif;
-        monospace = config.stylix.fonts.serif;
+        serif     = { inherit (themes.${theme}.font.serif) package name; };
+        sansSerif = { inherit (themes.${theme}.font.sans) package name; };
+        monospace = { inherit (themes.${theme}.font.monospace) package name; };
 
         emoji = {
           package = pkgs.noto-fonts-emoji;
