@@ -12,10 +12,9 @@ NC := '\033[0m'
 # Default - show available commands
 default:
   @echo "Available commands:"
-  @echo -e "  just init-machine [name]   {{BLUE}}- Initialize new machine with SSH keys{{NC}}"
+  @echo -e "  just init-machine [name]   {{BLUE}}- Initialize new machine{{NC}}"
   @echo -e "  just disko-format [system] {{BLUE}}- Formats the drive with disko config{{NC}}"
   @echo -e "  just deploy [system]       {{BLUE}}- Deploy system (auto-detects install vs rebuild){{NC}}"
-  @echo -e "  just hm-deploy [user@name] {{BLUE}}- Deploy the home-manager configuration{{NC}}"
   @echo ""
   @echo "Current system: $(just _detect_os)"
   @echo -n "Nix status: "
@@ -100,7 +99,7 @@ init-machine machine=hostname:
   @just _print "{{BLUE}}" "Initializing machine {{machine}}..."
 
   # Generate system age key if needed
-  @if [ ! -f /var/lib/sops-nix/key.txt ]; then \
+  @if [ ! -f var/lib/sops-nix/key.txt ]; then \
     just _print "{{YELLOW}}" "Generating system age key..."; \
     sudo mkdir -p /var/lib/sops-nix; \
     sudo chmod 700 /var/lib/sops-nix; \
@@ -111,30 +110,7 @@ init-machine machine=hostname:
     echo "Add this key to secrets/.sops.yaml"; \
   fi
 
-  # Create SSH keys and secrets
-  @if [ ! -f secrets/machines/{{machine}}/ssh.yaml ]; then \
-    just _print "{{YELLOW}}" "Creating SSH keys for {{machine}}..."; \
-    mkdir -p secrets/machines/{{machine}}; \
-    mkdir -p /tmp/ssh-keys; \
-    ssh-keygen -t ed25519 -f /tmp/ssh-keys/{{machine}}_ed25519 -N "" -C "{{username}}@{{machine}}"; \
-    ssh-keygen -t rsa -f /tmp/ssh-keys/{{machine}}_rsa -N "" -C "{{username}}@{{machine}}"; \
-    echo "# SSH keys for {{machine}}" > /tmp/{{machine}}_ssh.yaml; \
-    echo "ssh_private_key_ed25519: |" >> /tmp/{{machine}}_ssh.yaml; \
-    sed 's/^/  /' /tmp/ssh-keys/{{machine}}_ed25519 >> /tmp/{{machine}}_ssh.yaml; \
-    echo "" >> /tmp/{{machine}}_ssh.yaml; \
-    echo "ssh_public_key_ed25519: $(cat /tmp/ssh-keys/{{machine}}_ed25519.pub)" >> /tmp/{{machine}}_ssh.yaml; \
-    echo "ssh_private_key_rsa: |" >> /tmp/{{machine}}_ssh.yaml; \
-    sed 's/^/  /' /tmp/ssh-keys/{{machine}}_rsa >> /tmp/{{machine}}_ssh.yaml; \
-    echo "" >> /tmp/{{machine}}_ssh.yaml; \
-    echo "ssh_public_key_rsa: $(cat /tmp/ssh-keys/{{machine}}_rsa.pub)" >> /tmp/{{machine}}_ssh.yaml; \
-    mv /tmp/{{machine}}_ssh.yaml secrets/machines/{{machine}}/ssh.yaml; \
-    cd secrets && SOPS_AGE_KEY_FILE=/var/lib/sops-nix/key.txt sops --encrypt --in-place machines/{{machine}}/ssh.yaml; \
-    rm -rf /tmp/ssh-keys; \
-    just _print "{{GREEN}}" "SSH secrets created for {{machine}}"; \
-  else \
-    just _print "{{YELLOW}}" "SSH secrets already exist for {{machine}}"; \
-  fi
-
+  @mkdir -p secrets/machines/{{machine}}
   @touch secrets/machines/{{machine}}/secrets.yaml
 
   @just _print "{{GREEN}}" "Machine {{machine}} initialized!"
@@ -173,13 +149,8 @@ info:
   else \
     echo -e "Age Key: {{RED}}✗ Missing{{NC}}"; \
   fi
-  @if [ -f secrets/machines/{{hostname}}/ssh.yaml ]; then \
-    echo -e "SSH Secrets: {{GREEN}}✓ Present{{NC}}"; \
-  else \
-    echo -e "SSH Secrets: {{RED}}✗ Missing{{NC}}"; \
-  fi
 
-# Build without switching (for testing)
+# Build without switching
 build system=hostname:
   @just _print "{{BLUE}}" "building system {{system}}..."
   @just _build_impl {{system}}
@@ -216,13 +187,3 @@ _build_impl system:
     exit 1; \
   fi; \
   just _print "{{GREEN}}" "System {{system}} built successfully!"
-
-# Deploy home-manager
-hm-deploy system=hostname:
-  @just _print "{{BLUE}}" "Deploying home-manager for {{username}}@{{system}}..."
-  @just _hm-deploy_impl {{system}}
-
-_hm-deploy_impl system:
-  home-manager switch --flake .#{{username}}@{{system}}
-  @echo -e "{{GREEN}}Home {{username}}@{{system}} deployed successfully!{{NC}}"
-
