@@ -13,6 +13,7 @@
     rofi.enable = wmEnable;
     shell.enable = true;
     wezterm.enable = true;
+    tmux.enable = true;
 
     user = {
       ssh.enable = true;

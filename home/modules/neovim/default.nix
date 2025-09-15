@@ -49,6 +49,8 @@ in {
         scrolloff = 10;
         confirm = true;
         hlsearch = true;
+        tabstop = 4;
+        shiftwidth = 4;
       };
 
       keymaps = [
@@ -125,6 +127,7 @@ in {
 
       extraPlugins = with pkgs.vimPlugins; [
         nvim-web-devicons
+      ] ++ [
       ];
 
       extraConfigLuaPre = ''

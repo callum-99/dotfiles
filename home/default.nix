@@ -45,7 +45,7 @@ in {
         inputs.sops-nix.homeManagerModules.sops
         inputs.nur.modules.homeManager.default
         inputs.nixvim.homeModules.nixvim
-        inputs.betterfox.homeManagerModules.betterfox
+        inputs.betterfox.homeModules.betterfox
 
         "${self}/modules"
         "${self}/home/modules"
