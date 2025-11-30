@@ -24,7 +24,8 @@
   };
 
   sops = {
-    age.keyFile = if isLinux then "${config.home.homeDirectory}/.config/sops/age/keys.txt" else "${config.home.homeDirectory}/Library/Applications Support/sops/age/keys.txt";
+    #age.keyFile = if isLinux then "${config.home.homeDirectory}/.config/sops/age/keys.txt" else "${config.home.homeDirectory}/Library/Applications Support/sops/age/keys.txt";
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
 
     secrets = {
     };

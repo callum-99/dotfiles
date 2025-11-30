@@ -10,12 +10,15 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      ripgrep
       bat
-      ncdu
       bottom
       btop
       du-dust
+      mpv
+      ncdu
+      ripgrep
+      streamlink
+      yt-dlp
     ];
   };
 }

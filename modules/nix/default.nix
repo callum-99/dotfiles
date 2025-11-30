@@ -1,4 +1,4 @@
-{ inputs, lib, config, pkgs, username, ... }:
+{ inputs, lib, config, pkgs, username, self, ... }:
 let
   inherit (lib) mkEnableOption mkOption mkIf;
   inherit (lib.types) bool;
@@ -18,6 +18,10 @@ in {
   config = mkIf cfg.enable {
     nix = {
       package = pkgs.nix;
+
+      extraOptions = ''
+        !include ${config.sops.secrets.access-tokens.path}
+      '';
 
       settings = {
         experimental-features = [
@@ -42,6 +46,10 @@ in {
           "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
         ];
       };
+    };
+
+    sops.secrets.access-tokens = {
+      sopsFile = "${self}/secrets/machines/common.yaml";
     };
   };
 }

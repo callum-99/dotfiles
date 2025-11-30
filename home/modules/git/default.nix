@@ -11,18 +11,21 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = "Callum Yarnold";
-      userEmail = "git@yarnold.co.uk";
+
+      settings = {
+        user = {
+          name = "Callum Yarnold";
+          email = "git@yarnold.co.uk";
+        };
+
+        pull.rebase = true;
+        push.autoSetupRemote = true;
+      };
 
       signing = {
         format = "ssh";
         key = "~/.ssh/id_rsa.pub";
         signByDefault = true;
-      };
-
-      extraConfig = {
-        pull.rebase = true;
-        push.autoSetupRemote = true;
       };
     };
   };

@@ -26,6 +26,7 @@ let
 
   mkHost = machineDir: {
     username ? "user",
+    pkgsInput ? "stable",
     stateVersion ? defaultStateVersion,
     hmStateVersion ? stateVersion,
     platform ? "x86_64-linux",
@@ -37,15 +38,15 @@ let
     keyboardLayout ? "gb",
     keyboardVariant ? "",
   }: let
+    chosenPkgs = inputs.${pkgsInput};
+    nixosSystem = chosenPkgs.lib.nixosSystem;
     hyprlandEnable = (wm == "hyprland");
     wmEnable = hyprlandEnable;
-    nixosSystem = if stateVersion == defaultStateVersion
-                  then inputs.stable.lib.nixosSystem
-                  else inputs.nixpkgs.lib.nixosSystem;
   in nixosSystem {
     specialArgs = {
       inherit
         inputs
+        pkgsInput
         self
         allDirs
         stripTrailingZeros
@@ -81,6 +82,7 @@ let
 
   mkHostDarwin = machineDir: {
     username ? "user",
+    pkgsInput ? "stable-darwin",
     stateVersion ? defaultDarwinStateVersion,
     hmStateVersion ? stateVersion,
     hostname ? machineDir,
@@ -90,12 +92,15 @@ let
     theme ? "gruvbox-dark",
     hostType ? "darwin",
   }: let
+    chosenPkgs = inputs.${pkgsInput};
+    darwinSystem = inputs.darwin.lib.darwinSystem;
     hyprlandEnable = false;
     wmEnable = false;
-  in inputs.darwin.lib.darwinSystem {
+  in darwinSystem {
     specialArgs = {
       inherit
         inputs
+        pkgsInput
         self
         allDirs
         stripTrailingZeros
@@ -120,10 +125,11 @@ let
       sops-nix.darwinModules.sops
       nur.modules.darwin.default
       nixvim.nixDarwinModules.nixvim
+      nix-homebrew.darwinModules.nix-homebrew
     ] ++ constructors;
   };
 in {
-  forAllSystems = inputs.nixpkgs.lib.systems.flakeExposed;
+  forAllSystems = inputs.stable.lib.systems.flakeExposed;
 
   genNixOS = builtins.mapAttrs mkHost;
   genDarwin = builtins.mapAttrs mkHostDarwin;

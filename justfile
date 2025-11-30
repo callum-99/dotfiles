@@ -1,5 +1,5 @@
 # Variables
-hostname := `hostname`
+hostname := `hostname | sed 's/\.local//'`
 username := env_var('USER')
 
 # Colors
