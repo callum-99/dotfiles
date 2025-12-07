@@ -9,7 +9,6 @@ in {
     appLauncher = mkOption {
       type = enum [
         "rofi"
-        "rofi-wayland"
         "fuzzel"
       ];
 
@@ -19,7 +18,6 @@ in {
     appLauncherCmd = let
       appLauncherExecs = {
         rofi         = "${pkgs.rofi}/bin/rofi -show drun";
-        rofi-wayland = "${pkgs.rofi-wayland}/bin/rofi -show drun ";
         fuzzel       = "${pkgs.fuzzel}/bin/fuzzel --show drun";
       };
     in

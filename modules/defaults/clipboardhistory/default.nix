@@ -11,8 +11,7 @@ in {
       createExec = launcher: "${clipboardHistoryBase} list | ${launcher} | ${clipboardHistoryBase} decode | ${pkgs.wl-clipboard}/bin/wl-copy";
 
       clipboardHistoryExecs = {
-        rofi         = createExec "${pkgs.rofi}/bin/rofi -dmeny";
-        rofi-wayland = createExec "${pkgs.rofi-wayland}/bin/rofi -dmenu";
+        rofi         = createExec "${pkgs.rofi}/bin/rofi -dmenu";
         fuzzel       = createExec "${pkgs.fuzzel}/bin/fuzzel -d";
       };
     in

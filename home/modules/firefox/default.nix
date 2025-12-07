@@ -18,6 +18,11 @@ in {
 
       betterfox = {
         enable = true;
+        profiles.main = {
+          enableAllSections = true;
+
+          settings = {};
+        };
       };
 
       policies = {
@@ -26,12 +31,6 @@ in {
       };
 
       profiles.main = {
-        betterfox = {
-          enable = true;
-
-          enableAllSections = true;
-        };
-
         isDefault = true;
         name = "main";
 
