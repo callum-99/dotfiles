@@ -111,7 +111,7 @@ in {
         monospace = { inherit (themes.${theme}.font.monospace) package name; };
 
         emoji = {
-          package = pkgs.noto-fonts-emoji;
+          package = pkgs.noto-fonts-color-emoji;
           name = "Noto Color Emoji";
         };
       };

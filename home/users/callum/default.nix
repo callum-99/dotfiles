@@ -9,7 +9,7 @@
     hyprland.enable = wmEnable && hyprlandEnable;
     hyprlock.enable = wmEnable && hyprlandEnable;
     waybar.enable = wmEnable && hyprlandEnable;
-    neovim.enable = isWorkstation;
+    neovim.enable = false; #isWorkstation;
     rofi.enable = wmEnable;
     shell.enable = true;
     wezterm.enable = true;

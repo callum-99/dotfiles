@@ -41,7 +41,7 @@
     dione = {
       username = "callum";
       platform = "aarch64-darwin";
-      pkgsInput = "unstable";
+      pkgsInput = "stable-darwin";
       stateVersion = 6;
       hmStateVersion = "25.05";
       isWorkstation = true;

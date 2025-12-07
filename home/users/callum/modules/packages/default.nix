@@ -13,7 +13,7 @@ in {
       bat
       bottom
       btop
-      du-dust
+      dust
       mpv
       ncdu
       ripgrep

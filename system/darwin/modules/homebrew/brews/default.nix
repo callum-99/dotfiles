@@ -1,7 +1,8 @@
 { ... }: {
   homebrew.brews = [
-    "mas"
     "helm"
+    "i686-elf-binutils"
     "kubectl"
+    "mas"
   ];
 }
