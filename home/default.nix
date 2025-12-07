@@ -1,4 +1,4 @@
-{ self, config, pkgs, lib, inputs, hostname, username, platform, hmStateVersion, isWorkstation ? false, wm ? "", theme, hyprlandEnable ? false, wmEnable ? false, allDirs, stripTrailingZeros, keyboardLayout, keyboardVariant, ...}:
+{ self, config, pkgs, lib, inputs, hostname, username, platform, hmStateVersion, isWorkstation ? false, wm ? "", theme, hyprlandEnable ? false, wmEnable ? false, waylandEnable ? false, xorgEnable ? false, allDirs, stripTrailingZeros, keyboardLayout, keyboardVariant, ...}:
 let
   inherit (pkgs.stdenv) isDarwin isLinux;
   inherit (lib) optional;
@@ -33,6 +33,8 @@ in {
         theme
         hyprlandEnable
         wmEnable
+	waylandEnable
+	xorgEnable
         keyboardLayout
         keyboardVariant
       ;

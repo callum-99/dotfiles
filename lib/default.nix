@@ -42,6 +42,8 @@ let
     nixosSystem = chosenPkgs.lib.nixosSystem;
     hyprlandEnable = (wm == "hyprland");
     wmEnable = hyprlandEnable;
+    waylandEnable = (wm == "hyprland");
+    xorgEnable = (wm == "i3");
   in nixosSystem {
     specialArgs = {
       inherit
@@ -61,6 +63,8 @@ let
         theme
         hyprlandEnable
         wmEnable
+	waylandEnable
+	xorgEnable
         hostType
         keyboardLayout
         keyboardVariant
@@ -96,6 +100,8 @@ let
     darwinSystem = inputs.darwin.lib.darwinSystem;
     hyprlandEnable = false;
     wmEnable = false;
+    waylandEnable = false;
+    xorgEnable = false;
   in darwinSystem {
     specialArgs = {
       inherit
@@ -115,6 +121,8 @@ let
         theme
         hyprlandEnable
         wmEnable
+	waylandEnable
+	xorgEnable
         hostType
       ;
     };

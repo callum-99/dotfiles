@@ -12,7 +12,7 @@ in {
         "fuzzel"
       ];
 
-      default = "rofi-wayland";
+      default = "rofi";
     };
 
     appLauncherCmd = let

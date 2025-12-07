@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, pkgs, self, waylandEnable, xorgEnable, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
 
@@ -23,8 +23,8 @@ in {
 
       clipboard = {
         providers = {
-          wl-copy.enable = true;
-          xsel.enable = true;
+          wl-copy.enable = waylandEnable;
+          xsel.enable = xorgEnable;
         };
         register = "unnamedplus";
       };
