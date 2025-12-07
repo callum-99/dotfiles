@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }:
 let
   appleFirmware = pkgs.fetchzip {
-    url = "http://172.16.19.1:42069/macbook-air.zip";
+    url = "http://172.16.10.1:42069/macbook-air.zip";
     sha256 = "sha256-PNM021D6ykv/JpBwVrc7um6H/MqyGPVGjTmrFvnlbvo=";
   };
 in {
