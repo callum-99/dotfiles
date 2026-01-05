@@ -2,7 +2,7 @@
   module = {
     dconf.enable = isLinux;
     emacs.enable = wmEnable;
-    firefox.enable = wmEnable;
+    firefox.enable = true;
     flameshot.enable = wmEnable;
     git.enable = true;
     hypridle.enable = wmEnable && hyprlandEnable;

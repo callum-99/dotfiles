@@ -1,8 +1,77 @@
 { lib, config, inputs, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
+  inherit (pkgs.stdenv) isDarwin;
+  inherit (builtins) toString listToAttrs concatLists;
 
   cfg = config.module.firefox;
+
+  # Function to generate the map for a domain
+  generateMap = { domain ? null, regex ? null, container }:
+    assert !(domain != null && regex != null);
+  let
+    cookieStoreId =
+      "firefox-container-"
+      + toString (containers.${container}.id or containers.Default.id);
+  in
+  if domain != null then
+    [
+      # Regular domain entry
+      {
+        name = "map=${domain}";
+        value = {
+          host = domain;
+          containerName = container;
+          inherit cookieStoreId;
+          enabled = true;
+        };
+      }
+
+      # Wildcard domain entry
+      {
+        name = "map=*.${domain}";
+        value = {
+          host = "*.${domain}";
+          containerName = container;
+          inherit cookieStoreId;
+          enabled = true;
+        };
+      }
+    ]
+  else if regex != null then
+    [
+      {
+        name = "map=@${regex}";
+        value = {
+          host = "@${regex}";
+          containerName = container;
+          inherit cookieStoreId;
+          enabled = true;
+        };
+      }
+    ]
+  else
+    [{ name = "ERROR"; value = "domain: ${domain}, regex: ${regex}, container: ${container}"; }];
+
+  containers = {
+    Default    = { color = "toolbar";   icon = "circle"; id = 9; };
+    Facebook   = { color = "blue";      icon = "circle"; id = 2; };
+    Git        = { color = "red";       icon = "circle"; id = 5; };
+    Google     = { color = "green";     icon = "circle"; id = 1; };
+    Personal   = { color = "turquoise"; icon = "circle"; id = 4; };
+    Reddit     = { color = "purple";    icon = "circle"; id = 8; };
+    Search     = { color = "yellow";    icon = "circle"; id = 6; };
+    Selfhosted = { color = "pink";      icon = "circle"; id = 3; };
+    Shopping   = { color = "orange";    icon = "circle"; id = 7; };
+  };
+
+  domainsList = [
+    { regex = "(^|\/\/)([a-z0-9-]+\.)*google\.[a-z]{2,}(\.[a-z]{2,})?(\/|$)"; container = "Google"; }
+    { domain = "youtube.com"; container = "Google"; }
+    { domain = "reddit.com"; container = "Reddit"; }
+    { domain = "kagi.com"; container = "Search"; }
+  ];
+
 in {
   options.module.firefox = {
     enable = mkEnableOption "Enables firefox";
@@ -10,6 +79,7 @@ in {
 
   config = mkIf cfg.enable {
     stylix.targets.firefox.profileNames = [ "main" ];
+    stylix.targets.firefox.enable = !isDarwin;
 
     programs.firefox = {
       enable = true;
@@ -28,6 +98,18 @@ in {
       policies = {
         BlockAboutConfig = false;
         DefaultDownloadDirectory = "~/Downloads";
+        Cookies = {
+          Allow = [
+            "https://amazon.co.uk"
+            "https://ebay.co.uk"
+            "https://google.com"
+            "https://kagi.com"
+            "https://old.reddit.com"
+            "https://reddit.com"
+            "https://twitch.tv"
+            "https://youtube.com"
+          ];
+        };
       };
 
       profiles.main = {
@@ -79,17 +161,9 @@ in {
           ];
         };
 
-        containers = {
-          Google =     { color = "green";     icon = "circle"; id = 1; };
-          Facebook =   { color = "blue";      icon = "circle"; id = 2; };
-          Selfhosted = { color = "pink";      icon = "circle"; id = 3; };
-          Personal =   { color = "turquoise"; icon = "circle"; id = 4; };
-          Git =        { color = "red";       icon = "circle"; id = 5; };
-          Search =     { color = "yellow";    icon = "circle"; id = 6; };
-          Amazon =     { color = "orange";    icon = "circle"; id = 7; };
-          Reddit =     { color = "purple";    icon = "circle"; id = 8; };
-          Default =    { color = "toolbar";   icon = "circle"; id = 9; };
-        };
+        containersForce = true;
+
+        containers = containers;
 
         settings = {
           "browser.startup.homepage" = "about:newtab";
@@ -125,9 +199,9 @@ in {
           "extensions.formautofill.creditCards.enabled" = false;
           "extensions.getAddons.showPane" = false;
           "extensions.pocket.enabled" = false;
-          "network.trr.custom_uri" = "https://ns2.yarnold.co.uk/dns-query";
+          "network.trr.custom_uri" = "https://dns01.yarnold.co.uk/dns-query";
           "network.trr.mode" = 2;
-          "network.trr.uri" = "https://ns2.yarnold.co.uk/dns-query";
+          "network.trr.uri" = "https://dns01.yarnold.co.uk/dns-query";
           "privacy.bounceTrackingProtection.mode" = 1;
           "privacy.clearHistory.cookiesAndStorage" = false;
           "privacy.clearHistory.formdata" = true;
@@ -150,6 +224,7 @@ in {
           "security.cert_pinning.enforcement_level" = 2;
           "sidebar.visibility" = "hide-sidebar";
           "general.autoScroll" = true;
+          "browser.startup.page" = 3; # Restore previous session
         };
 
         extensions = {
@@ -166,51 +241,72 @@ in {
             violentmonkey
           ];
 
-          #settings = {
-          #  "uBlock0@raymondhill.net".settings = {
-          #    userSettings.advancedUserEnabled = true;
+          settings = {
+            "uBlock0@raymondhill.net".settings = {
+              selectedFilterLists = [
+                "user-filters"
+                "ublock-filters"
+                "ublock-badware"
+                "ublock-privacy"
+                "ublock-unbreak"
+                "ublock-quick-fixes"
+                "ublock-annoyances"
+                "ublock-cookies-easylist"
+              ];
 
-          #    selectedFilterLists = [
-          #      "ublock-filters"
-          #      "ublock-badware"
-          #      "ublock-privacy"
-          #      "ublock-unbreak"
-          #      "ublock-quick-fixes"
-          #      "ublock-annoyances"
-          #      "ublock-cookies-easylist"
-          #    ];
+              user-filters = "!Remove stupid shorts from sub feed\nwww.youtube.com##ytd-rich-section-renderer.ytd-rich-grid-renderer.style-scope:nth-of-type(2)";
 
-          #    userFilters = "! Remove stupid shorts from sub feed\nwww.youtube.com##.ytd-rich-section-renderer.style-cope > .ytd-rich-section-renderer.style-scope";
-          #  };
+              availableFilterLists = {
+                "user-filters" = {
+                  content = "filters";
+                  group = "user";
+                  title = "My filters";
+                  off = false;
+                  entryCount = 1;
+                  entryUsedCount = 1;
+                };
+              };
 
-          #  #"addon@darkreader.org" = {
-          #  #  theme = {
-          #  #    mode = 1;
-          #  #    brightness = 100;
-          #  #    contrast = 100;
-          #  #    grayscale = 0;
-          #  #    sepia = 0;
-          #  #    useFont = false;
-          #  #    engine = "dynamicTheme";
-          #  #  };
+              userSettings = {
+                advancedUserEnabled = true;
+              };
+            };
 
-          #  #  "enabledByDefault" = true;
+            "addon@darkreader.org".settings = {
+              theme = {
+                mode = 1;
+                brightness = 100;
+                contrast = 100;
+                grayscale = 0;
+                sepia = 0;
+                useFont = false;
+                engine = "dynamicTheme";
+              };
 
-          #  #  "disabledFor" = [
-          #  #    "maps.google.com"
-          #  #    "google.com/maps"
-          #  #    "google.co.uk/maps"
-          #  #    "www.lightningmaps.org"
-          #  #  ];
+              "enabledByDefault" = true;
+              "changeBrowserTheme" = true;
+              "syncSettings" = false;
+              "syncSitesFixes" = true;
+              "enableForPDF" = true;
+              "detectDarkTheme" = true;
+              
+              "disabledFor" = [
+                "maps.google.com"
+                "google.com/maps"
+                "google.co.uk/maps"
+                "www.lightningmaps.org"
+              ];
+            };
 
-          #  #  "changeBrowserTheme" = true;
-          #  #  "syncSettings" = true;
-          #  #  "syncSiteFixes" = true;
-          #  #  "enableForPDF" = true;
-          #  #  "detectDarkTheme" = true;
-          #  #};
-          #};
+            "containerise@kinte.sh".settings = listToAttrs ( concatLists ( map generateMap domainsList ) ); 
+          };
         };
+      };
+
+      profiles.extra = {
+        isDefault = false;
+        name = "extra";
+        id = 1;
       };
     };
   };

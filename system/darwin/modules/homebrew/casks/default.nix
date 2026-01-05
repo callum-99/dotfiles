@@ -4,6 +4,8 @@
     "aldente"
     "alfred"
     "alt-tab"
+    "android-platform-tools"
+    "chromium"
     "coconutbattery"
     "crossover"
     "daisydisk"
@@ -11,6 +13,7 @@
     "ente-auth"
     "firefox"
     "keka"
+    "localsend"
     "macs-fan-control"
     "obs"
     "orion"
@@ -24,6 +27,7 @@
     "steam"
     "stremio"
     "utm"
+    "visual-studio-code"
     "vnc-viewer"
   ];
 }

@@ -16,6 +16,7 @@ config.window_close_confirmation = "AlwaysPrompt"
 config.scrollback_lines = 3000
 config.default_workspace = "home"
 config.enable_kitty_graphics = true
+config.default_cwd = wezterm.home_dir
 
 -- Keys
 config.leader = { key = "a", mods = "CTRL", timeout_millisecconds = 1000 }

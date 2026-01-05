@@ -63,8 +63,8 @@ let
         theme
         hyprlandEnable
         wmEnable
-	waylandEnable
-	xorgEnable
+        waylandEnable
+        xorgEnable
         hostType
         keyboardLayout
         keyboardVariant
@@ -121,8 +121,8 @@ let
         theme
         hyprlandEnable
         wmEnable
-	waylandEnable
-	xorgEnable
+        waylandEnable
+        xorgEnable
         hostType
       ;
     };

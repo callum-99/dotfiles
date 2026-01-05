@@ -31,6 +31,7 @@ in {
 
       opts = {
         number = true;
+        relativenumber = true;
         mouse = "a";
         showmode = false;
         breakindent = true;
@@ -42,15 +43,15 @@ in {
         timeoutlen = 300;
         splitright = true;
         splitbelow = true;
-        list = true;
+        list = false;
         listchars.__raw = "{ tab = '» ', trail = '·', nbsp = '␣' }";
         inccommand = "split";
         cursorline = true;
         scrolloff = 10;
         confirm = true;
         hlsearch = true;
-        tabstop = 4;
-        shiftwidth = 4;
+        tabstop = 2;
+        shiftwidth = 2;
       };
 
       keymaps = [
@@ -99,6 +100,14 @@ in {
             desc = "Move focus to the upper window";
           };
         }
+        {
+          mode = "n";
+          key = "<leader>tl";
+          action = "<cmd>set list!<CR>";
+          options = {
+            desc = "Toggle list chars";
+          };
+        }
       ];
 
       autoGroups = {
@@ -132,6 +141,13 @@ in {
       extraConfigLuaPost = ''
         -- vim: ts=2 sts=2 sw=2 et
       '';
+    };
+
+    stylix.targets.nixvim = {
+      enable = true;
+      transparentBackground.main = false;
+      transparentBackground.numberLine = false;
+      transparentBackground.signColumn = false;
     };
   };
 }

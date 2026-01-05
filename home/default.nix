@@ -33,8 +33,8 @@ in {
         theme
         hyprlandEnable
         wmEnable
-	waylandEnable
-	xorgEnable
+        waylandEnable
+        xorgEnable
         keyboardLayout
         keyboardVariant
       ;
